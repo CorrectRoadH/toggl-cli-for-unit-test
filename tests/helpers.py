@@ -150,13 +150,19 @@ class Cleanup:
         """
         Expensive operation as it goes over all resources in Toggl.
         """
-        Cleanup.time_entries(config=config)
-        Cleanup.project_users(config=config)
-        Cleanup.workspace_users(config=config)
-        Cleanup.tasks(config=config)
-        Cleanup.tags(config=config)
-        Cleanup.projects(config=config)
-        Cleanup.clients(config=config)
+        for cleanup_fn in [
+            Cleanup.time_entries,
+            Cleanup.project_users,
+            Cleanup.workspace_users,
+            Cleanup.tasks,
+            Cleanup.tags,
+            Cleanup.projects,
+            Cleanup.clients,
+        ]:
+            try:
+                cleanup_fn(config=config)
+            except Exception as e:
+                print(f"Cleanup warning: {cleanup_fn.__name__} failed: {e}")
 
     @staticmethod
     def clients(config=None, *ids):
