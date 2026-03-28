@@ -34,10 +34,15 @@ jobs:
           python -m pip install --upgrade pip
           pip install --upgrade --upgrade-strategy eager -r test-requirements.txt -e .
 
-      - name: Run tests
+      - name: Run unit tests
+        run: |
+          pytest tests/unit/ --cov toggl
+
+      - name: Run integration tests
+        if: env.TOGGL_API_TOKEN != ''
         env:
           TOGGL_API_TOKEN: ${{ secrets.TOGGL_API_TOKEN }}
           TOGGL_API_URL: ${{ secrets.TOGGL_API_URL }}
           TOGGL_REPORTS_URL: ${{ secrets.TOGGL_REPORTS_URL }}
         run: |
-          pytest --cov toggl
+          pytest tests/integration/ --cov toggl --cov-append
