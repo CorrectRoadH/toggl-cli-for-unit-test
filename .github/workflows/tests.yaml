@@ -37,6 +37,8 @@ jobs:
       - name: Run unit tests
         env:
           TOGGL_API_TOKEN: ${{ secrets.TOGGL_API_TOKEN }}
+          TOGGL_API_URL: ${{ secrets.TOGGL_API_URL }}
+          TOGGL_REPORTS_URL: ${{ secrets.TOGGL_REPORTS_URL }}
         run: |
           pytest tests/unit/ --cov toggl
 
