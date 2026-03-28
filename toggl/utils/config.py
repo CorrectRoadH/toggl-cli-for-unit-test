@@ -290,6 +290,7 @@ class Config(EnvConfigMixin, IniConfigMixin, metaclass=ConfigMeta):
         'api_token': EnvEntry('TOGGL_API_TOKEN', str),
         'username': EnvEntry('TOGGL_USERNAME', str),
         'password': EnvEntry('TOGGL_PASSWORD', str),
+        'default_wid': EnvEntry('TOGGL_DEFAULT_WID', int),
     }
 
     INI_MAPPING = {
