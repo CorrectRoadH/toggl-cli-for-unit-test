@@ -194,7 +194,7 @@ class EnvConfigMixin:
         """
         value = os.environ.get(entry.variable)
 
-        if value is None:
+        if not value:
             return None
 
         return entry.type(value)
