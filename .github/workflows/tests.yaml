@@ -42,6 +42,25 @@ jobs:
         run: |
           pytest tests/unit/ --cov toggl
 
+      - name: Debug API config
+        env:
+          TOGGL_API_URL: ${{ secrets.TOGGL_API_URL }}
+          TOGGL_API_TOKEN: ${{ secrets.TOGGL_API_TOKEN }}
+        run: |
+          python -c "
+          import os
+          url = os.environ.get('TOGGL_API_URL', 'NOT SET')
+          token = os.environ.get('TOGGL_API_TOKEN', 'NOT SET')
+          print(f'TOGGL_API_URL length: {len(url)}, starts with: {url[:30] if url != \"NOT SET\" else \"N/A\"}...')
+          print(f'TOGGL_API_TOKEN length: {len(token)}')
+          from toggl.toggl import TOGGL_URL
+          print(f'Resolved TOGGL_URL: {TOGGL_URL}')
+          import requests
+          resp = requests.get(TOGGL_URL + '/me', auth=(token, 'api_token'))
+          print(f'GET /me status: {resp.status_code}')
+          print(f'GET /me body: {resp.text[:200]}')
+          "
+
       - name: Run integration tests
         if: env.TOGGL_API_TOKEN != ''
         env:
