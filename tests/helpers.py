@@ -90,7 +90,7 @@ class ParsingResult:
         output = self.obj.output.strip().split('\n')
         parsed = {}
 
-        regex = re.search(r'(?P<name>[\w ]+)?#(?P<id>\d+)$', output[0])
+        regex = re.search(r'(?P<name>.+?)\s*#(?P<id>\d+)$', output[0])
 
         if not regex:
             raise RuntimeError('Unknown structure of detail string! >> ' + output[0])
